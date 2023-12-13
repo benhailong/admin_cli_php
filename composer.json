@@ -1,0 +1,48 @@
+{
+    "name": "unpor/tp8-admin-tpl",
+    "description": "the new thinkphp framework",
+    "type": "project",
+    "keywords": [
+        "unpor",
+        "thinkphp",
+        "admin"
+    ],
+    "homepage": "https://www.unpor.cn/",
+    "license": "Apache-2.0",
+    "authors": [
+        {
+            "name": "benhailong",
+            "email": "694201656@qq.com"
+        }
+    ],
+    "require": {
+        "php": ">=8.0.0",
+        "topthink/framework": "^8.0",
+        "topthink/think-orm": "^3.0",
+        "topthink/think-filesystem": "^2.0",
+        "topthink/think-multi-app": "^1.0",
+        "phpmailer/phpmailer": "^6.8",
+        "alibabacloud/dysmsapi-20170525": "^2.0"
+    },
+    "require-dev": {
+        "symfony/var-dumper": ">=4.2",
+        "topthink/think-trace": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "app\\": "app"
+        },
+        "psr-0": {
+            "": "extend/"
+        }
+    },
+    "config": {
+        "preferred-install": "dist"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "@php think service:discover",
+            "@php think vendor:publish"
+        ]
+    }
+}
