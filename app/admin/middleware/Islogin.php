@@ -85,9 +85,13 @@ class Islogin {
             }
             // 更新登录的过期时间
             Cache::store('redis')->set('user:'.$tokenArr[1], $res, 3000);
+
+            // todo 根据用户的登录情况查询用户的VIP信息
+
+
             // 管理用户的唯一ID传给控制器
             $request->userid = $res['id'];
-            $request->vip_level = $res['vip_level'];
+//            $request->vip_level = $res['vip_level'];
             $request->role_id = $res['role_id'];
             return $next($request);
         }else{

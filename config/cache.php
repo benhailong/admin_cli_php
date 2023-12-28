@@ -31,7 +31,7 @@ return [
             // 服务器地址
             'host'   => '127.0.0.1',
             'port'       => 6379,
-            'password'   => 'Unpor1233',
+            'password'   => '',
         ],
     ],
 ];

@@ -135,6 +135,13 @@ class Role extends BaseController {
         return ResJson::success('');
     }
 
+    /**
+     * 查询所有的角色列表-不分页
+     */
+    public function getAllNoPage(){
+        $list = RoleModel::select();
+        return ResJson::success($list);
+    }
 
 
 }

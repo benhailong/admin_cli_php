@@ -2,6 +2,8 @@
 namespace app\admin\controller;
 
 use app\admin\model\UsersModel;
+use app\admin\model\UsersVipModel;
+use app\admin\service\UsersService;
 use app\BaseController;
 use app\pub\Ants4PHP;
 use app\pub\ResJson;
@@ -57,7 +59,6 @@ class Users extends BaseController {
             $user->app_id = 'up'.Ants4PHP::ant_order();
             $user->app_secret = Ants4PHP::ant_uuid();
             $user->username = substr(md5(time()), 10, 8);  // 随机生成用户名
-            $user->vip_level = 1;
             $user->role_id = 2;
             $user->status = 1;
             $user->save();
@@ -120,7 +121,6 @@ class Users extends BaseController {
             $user->app_id = 'up'.Ants4PHP::ant_order();
             $user->app_secret = Ants4PHP::ant_uuid();
             $user->username = substr(md5(time()), 10, 8);  // 随机生成用户名
-            $user->vip_level = 1;
             $user->role_id = 2;
             $user->status = 1;
             $user->save();
@@ -288,9 +288,7 @@ class Users extends BaseController {
         $vo->save();
 
         $res = array('token' => $token."&".$vo->id,
-            'username' => $vo->username,
-            'vip_level'=> $vo->vip_level,
-            'vip_expire_time'=> $vo->vip_expire_time);
+            'username' => $vo->username);
 
         return ResJson::success($res);
     }
@@ -353,6 +351,49 @@ class Users extends BaseController {
     }
 
 
+    /**
+     * 分页查询
+     */
+    public function getAllByPage($username = '',$phone = '',$email = '',$size = 10, $page = 1){
+        $port_list = UsersService::getListByPage($username,$phone,$email,$size, $page);
+        return ResJson::success($port_list);
+    }
 
+
+    /**
+     * 给用户开通会员权限
+     */
+    public function setVip(int $user_id, string $vips){
+        UsersService::setVip($user_id,$vips);
+        return ResJson::success("");
+    }
+
+    /**
+     * 查询用户的所有权限
+     */
+    public static function getVipByUserId(int $user_id){
+        $list = UsersVipModel::where("user_id",$user_id)->select();
+        return ResJson::success($list);
+    }
+
+    /**
+     * 修改用户状态
+     */
+    public static function setStatus(int $user_id,int $status){
+        if($user_id==1){
+            return ResJson::success("初始账号禁止警用");
+        }
+        UsersModel::update(['status' => $status], ['id' => $user_id]);
+        return ResJson::success("");
+    }
+
+
+    /**
+     * 根据用户的ID获取用户的详细信息
+     */
+    public static function getInfoById(int $user_id){
+        $user = UsersModel::where("id",$user_id)->findOrEmpty();
+        return ResJson::success($user);
+    }
 
 }
