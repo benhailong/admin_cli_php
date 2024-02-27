@@ -78,7 +78,7 @@ class Islogin {
                     array_push($role_port_list, $v['address']);
                 }
                 // 获取当前请丢的
-                if(!in_array($request->pathinfo(), $role_port_list)){
+                if(!in_array(strtolower($request->pathinfo()), array_map('strtolower', $role_port_list))){
                     // 如果不包含，说明没有权限，直接返回错误
                     return ResJson::result('10000', '权限不足');
                 }
